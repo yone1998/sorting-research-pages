@@ -48,7 +48,7 @@ window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath:
 <p><span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span> No.026: \(n\in\{5,6,7,8\}\) の既知境界で Python / 独自C++ / 上流 forward の可否が一致。Python↔独自は展開・計数カウンタも一致。</p>
 <p><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span> No.029: \(n=9\)、予算18で不可・19で可能。三方式とも completed。Python↔独自のカウンタ例（C=19）: expanded=7051、count_calls=68688、memo_states=7699。</p>
 
-<h2>6.2 C++対C++壁時計（限定）</h2>
+<h2>6.2 C++対C++<a href="../glossary.html#wallclock">壁時計</a>（限定）</h2><p>「壁時計」は開始から終了までの実経過時間です。「判定」は比較予算 \(C\) 以内で必ず整列できる戦略が存在するかを表し、可能なら \(S(n)\le C\)、不可なら \(S(n)&gt;C\) です。タイムアウトや資源上限到達は「不可」と区別します。詳細は<a href="../glossary.html#feasible">用語集</a>を参照。</p>
 <p>No.027（4反復中央値、プロセス壁時計、空半順序）。単位はミリ秒（JSONの秒を×1000して表示）。</p>
 <div class="scroll"><table>
 <thead><tr><th>n</th><th>C</th><th>独自C++ 中央値</th><th>上流C++ 中央値</th><th>判定</th></tr></thead>
