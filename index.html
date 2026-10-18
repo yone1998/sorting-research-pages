@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>目次 — 比較ソート最適性研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">比較ソート最適性研究</a>
+    <nav class="nav" aria-label="サイト">
+      <a href="index.html">目次</a>
+      <a href="glossary.html">用語集</a>
+      <a href="changelog.html">更新履歴</a>
+      <a href="https://github.com/yone1998/sorting-research">GitHub</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <aside class="toc-side" aria-label="章一覧">
+    <strong>章</strong>
+    <ol>
+<li><a href="chapters/01-comparison-model.html">1. 比較モデルと S(n)</a></li>
+<li><a href="chapters/02-ford-johnson.html">2. Ford–Johnson と既知結果</a></li>
+<li><a href="chapters/03-posets.html">3. 半順序・拡張・双対</a></li>
+<li><a href="chapters/04-search-pruning.html">4. 探索と枝刈り</a></li>
+<li><a href="chapters/05-implementations.html">5. 実装の相違</a></li>
+<li><a href="chapters/06-experiments.html">6. 再現実験</a></li>
+<li><a href="chapters/07-open-problems.html">7. 仮説と次の課題</a></li>
+    </ol>
+  </aside>
+  <main>
+
+<div class="hero">
+  <h1>比較ソートの最悪比較回数 \(S(n)\) — 読む研究教科書</h1>
+  <p class="lead" style="color:#d7e6f0">学部の基礎から、半順序探索・実装差・計算機検証まで。定理と実験と仮説を混同せずに追える日本語教材です。</p>
+  <p style="margin:0;font-size:0.92rem;color:#bcd0de">指示書: <code>docs/html-textbook-instructions.md</code> · 研究状態: <code>knowledge/status.md</code></p>
+</div>
+
+<p>このサイトはビルド不要の静的HTMLです。数式は MathJax、章は <code>site/chapters/</code> に分割しています。主張には次のラベルを付けます。</p>
+<p>
+  <span class="badge badge-pr">PROVED</span> 証明あり /
+  <span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span> 有限範囲の計算機検証 /
+  <span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span> 既知結果の再現 /
+  <span class="badge badge-cj">CONJECTURE</span> 未証明仮説
+</p>
+
+<div class="warn"><strong>重要:</strong> 本稿執筆時点で \(S(23)\) の新規確定や新しい上下界は達成していません。未検証の報告から新規性を主張しません。</div>
+
+<h2>章構成</h2>
+<ol class="chap-list">
+  <li><a href="chapters/01-comparison-model.html">第1章 比較モデル、決定木、情報下界</a><p>\(S(n)\)、\(L(n)=\lceil\log_2(n!)\rceil\)、天井・床の意味。</p></li>
+  <li><a href="chapters/02-ford-johnson.html">第2章 Ford–Johnson と既知結果</a><p>\(F(n)\)、文献 Table 7、未解決性の扱い。</p></li>
+  <li><a href="chapters/03-posets.html">第3章 半順序・線形拡張・双対・同型</a><p>\(e(P)\)、閉包、twins / dual_twins。</p></li>
+  <li><a href="chapters/04-search-pruning.html">第4章 minimax 探索と B0/B1/B2</a><p>メモ化、イデアルDP、枝刈りの健全性。</p></li>
+  <li><a href="chapters/05-implementations.html">第5章 Python・独自C++・上流C++</a><p>対応表と数学的差異。</p></li>
+  <li><a href="chapters/06-experiments.html">第6章 n=5〜9 の再現と計測</a><p>三方式照合、アブレーション、bidir 格子。数値は results 由来。</p></li>
+  <li><a href="chapters/07-open-problems.html">第7章 仮説・失敗・次の課題</a><p>C024-a/b/c の状態と未実施項目。</p></li>
+</ol>
+
+<p>関連: <a href="glossary.html">用語集</a> · <a href="changelog.html">更新履歴</a> ·
+<a href="https://github.com/yone1998/sorting-research/blob/main/docs/html-textbook-instructions.md">執筆指示</a> ·
+<a href="https://github.com/yone1998/sorting-research/blob/main/docs/cpp-parity-benchmark-instructions.md">C++公平比較指示</a> ·
+<a href="https://github.com/yone1998/sorting-research/issues/2">Issue #2</a></p>
+
+  </main>
+</div>
+<footer class="site-footer">
+  <p>静的HTML初版（2026-10-18）。数値はリポジトリの <code>results/</code> から採用。GitHub Pages の公開設定変更は別途確認。数学研究は途上であり、実験的確認は一般定理の証明ではない。</p>
+</footer>
+</body>
+</html>
