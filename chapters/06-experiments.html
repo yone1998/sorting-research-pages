@@ -47,48 +47,43 @@ window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath:
 <p><span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span> No.026: \(n\in\{5,6,7,8\}\) の既知境界で Python / 独自C++ / 上流 forward の可否が一致。Python↔独自は展開・計数カウンタも一致。</p>
 <p><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span> No.029: \(n=9\)、予算18で不可・19で可能。三方式とも completed。Python↔独自のカウンタ例（C=19）: expanded=7051、count_calls=68688、memo_states=7699。</p>
 
-<h2>6.2 C++対C++<a href="../glossary.html#wallclock">壁時計</a>（限定）</h2><p>「壁時計」は開始から終了までの実経過時間です。\(C\) は比較回数の予算で、最適値 \(S(n)\) そのものではありません。「判定」は比較予算 \(C\) 以内で必ず整列できる戦略が存在するかを表し、可能なら \(S(n)\le C\)、不可なら \(S(n)&gt;C\) です。タイムアウトや資源上限到達は「不可」と区別します。詳細は<a href="../glossary.html#feasible">用語集</a>を参照。</p>
-<p>No.027（4反復中央値、プロセス壁時計、空半順序）。単位はミリ秒（JSONの秒を×1000して表示）。</p>
-<div class="scroll"><table>
-<thead><tr><th>n</th><th>C（予算）</th><th>\(S(n)\)（既知）</th><th>独自C++ 中央値</th><th>上流C++ 中央値</th><th>判定</th></tr></thead>
-<tbody>
-<tr><td>7</td><td>12</td><td>13</td><td>2.31 ms</td><td>25.76 ms</td><td>不可</td></tr>
-<tr><td>7</td><td>13</td><td>13</td><td>4.66 ms</td><td>32.21 ms</td><td>可能</td></tr>
-<tr><td>8</td><td>15</td><td>16</td><td>2.23 ms</td><td>26.32 ms</td><td>不可</td></tr>
-<tr><td>8</td><td>16</td><td>16</td><td>18.78 ms</td><td>66.64 ms</td><td>可能</td></tr>
+<h2>6.2 実験判定・C++壁時計の統合一覧</h2>
+<p>空半順序の主要な予算付き判定を、結果と測定時間を同じ表に統合しました。\(C\) は比較回数の予算であり、\(S(n)\) そのものではありません。「可能」は \(S(n)\le C\)、「不可」は \(S(n)&gt;C\) を意味します。タイムアウトは不可と区別します。壁時計はプロセスの実経過時間で、単位はミリ秒です。</p>
+<p>測定方式は各行の「時間の扱い」に明記しました。No.027は各4反復の中央値、No.029は単回、No.043は約518秒の概数です。「—」はゼロ秒ではなく、ここで引用できる時間値がないことを意味します。</p>
+<div class="scroll"><table><thead><tr><th>記録</th><th>\(n\)</th><th>\(C\)</th><th>実装・条件</th><th>判定</th><th>独自C++壁時計</th><th>上流C++壁時計</th><th>時間の扱い</th><th>解釈・留保</th></tr></thead><tbody>
+<tr><td>No.021/026</td><td>5</td><td>6</td><td>上流ほか</td><td>不可</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.021/026</td><td>5</td><td>7</td><td>上流ほか</td><td>可能</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.019/021/026</td><td>6</td><td>9</td><td>閉包探索・上流ほか</td><td>不可</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.019/021/026</td><td>6</td><td>10</td><td>閉包探索・上流ほか</td><td>可能</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.019/021/027</td><td>7</td><td>12</td><td>独自C++・上流C++ほか</td><td>不可</td><td>2.31 ms</td><td>25.76 ms</td><td>No.027、各4反復の中央値</td><td>既知境界の再現</td></tr>
+<tr><td>No.019/021/027</td><td>7</td><td>13</td><td>独自C++・上流C++ほか</td><td>可能</td><td>4.66 ms</td><td>32.21 ms</td><td>No.027、各4反復の中央値</td><td>既知境界の再現</td></tr>
+<tr><td>No.020/021/027</td><td>8</td><td>15</td><td>独自C++・上流C++ほか</td><td>不可</td><td>2.23 ms</td><td>26.32 ms</td><td>No.027、各4反復の中央値</td><td>既知境界の再現</td></tr>
+<tr><td>No.020/021/027</td><td>8</td><td>16</td><td>独自C++・上流C++ほか</td><td>可能</td><td>18.78 ms</td><td>66.64 ms</td><td>No.027、各4反復の中央値</td><td>既知境界の再現</td></tr>
+<tr><td>No.022/029</td><td>9</td><td>18</td><td>Python・独自C++・上流C++</td><td>不可</td><td>—</td><td>—</td><td>測定なし</td><td>情報下界で棄却</td></tr>
+<tr><td>No.022/029</td><td>9</td><td>19</td><td>Python・独自C++・上流C++</td><td>可能</td><td>約261.84 ms</td><td>約221.00 ms</td><td>No.029、単回</td><td>既知境界の再現</td></tr>
+<tr><td>No.041</td><td>10</td><td>21</td><td>上流C++</td><td>不可</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.041</td><td>10</td><td>22</td><td>上流C++</td><td>可能</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.041–043</td><td>11</td><td>25</td><td>上流C++</td><td>不可</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.041–043</td><td>11</td><td>26</td><td>上流C++</td><td>可能</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
+<tr><td>No.042</td><td>11</td><td>26</td><td>独自C++（修正前）</td><td>タイムアウト</td><td>—</td><td>—</td><td>完走せず</td><td>可否未判定</td></tr>
+<tr><td>No.043</td><td>11</td><td>26</td><td>独自C++（修正後）</td><td>可能</td><td>約518,000 ms</td><td>—</td><td>単回・概数</td><td>既知境界の再現</td></tr>
+<tr><td>No.043</td><td>12</td><td>28</td><td>上流・独自C++</td><td>不可</td><td>—</td><td>—</td><td>測定なし</td><td>情報下界より1少ない</td></tr>
+<tr><td>次の判定点</td><td>12</td><td>29</td><td>制限付き探索</td><td>未実施</td><td>—</td><td>—</td><td>測定なし</td><td>予定であり実験結果ではない</td></tr>
 </tbody></table></div>
-<p>No.029 の n=9・C=19（単回）: 独自C++ 約 261.84 ms、上流 約 221.00 ms。単回かつ方式非同一のため優劣の一般化は禁止です。</p>
-<p>根拠: <a href="https://github.com/yone1998/sorting-research/blob/main/results/027_cpp_cpp_bench.json">027_cpp_cpp_bench.json</a>、
-<a href="https://github.com/yone1998/sorting-research/blob/main/results/029_n9_threeway.json">029_n9_threeway.json</a>。</p>
+<p>根拠：<a href="https://github.com/yone1998/sorting-research/blob/main/results/027_cpp_cpp_bench.json">No.027のJSON</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/results/029_n9_threeway.json">No.029のJSON</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/knowledge/status.md">研究記録</a>。時間値は異なるアルゴリズム間の一般的な優劣を示しません。</p>
+<div class="warn"><strong>網羅性の限界：</strong>これは従来の6.2と6.3を統合した条件別一覧であり、すべての反復・全実装・非空半順序・アブレーション・bidir格子を個別行に展開した完全台帳ではありません。成功、不可、タイムアウト、未実施は区別しています。全試行の完全台帳は引き続き未作成です。</div>
+<h2>6.3 アブレーション（状態数）</h2>
 
-
-<h2>6.3 実施・未完了の判定記録（省略しない方針）</h2>
-<p>上の6.2はNo.027のベンチマーク4条件だけを示した表であり、実施済み探索の全件一覧ではありません。以下では研究記録に現れる主要な空半順序の予算付き判定を、成功例・失敗例・未完了例を含めて記載します。行は実験条件を表し、同一条件の複数反復・異なる実装をすべて個別行に展開した生ログではありません。完全な実行記録は各JSONとログを正本とします。</p>
-<div class="scroll"><table><thead><tr><th>記録</th><th>\(n\)</th><th>\(C\)</th><th>実装・条件</th><th>観測結果</th><th>解釈・留保</th></tr></thead><tbody>
-<tr><td>No.021/026</td><td>5</td><td>6 / 7</td><td>上流ほか</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
-<tr><td>No.019/021/026</td><td>6</td><td>9 / 10</td><td>閉包探索・上流ほか</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
-<tr><td>No.019/021/027</td><td>7</td><td>12 / 13</td><td>閉包探索・上流ほか</td><td>不可 / 可能</td><td>既知境界の再現。6.2に時間を記載</td></tr>
-<tr><td>No.020/021/027</td><td>8</td><td>15 / 16</td><td>閉包探索・上流ほか</td><td>不可 / 可能</td><td>既知境界の再現。6.2に時間を記載</td></tr>
-<tr><td>No.022/029</td><td>9</td><td>18 / 19</td><td>Python・独自C++・上流</td><td>不可 / 可能</td><td>既知境界の再現。18は情報下界で棄却</td></tr>
-<tr><td>No.041</td><td>10</td><td>21 / 22</td><td>上流C++</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
-<tr><td>No.041–043</td><td>11</td><td>25 / 26</td><td>上流C++</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
-<tr><td>No.042</td><td>11</td><td>26</td><td>独自C++（修正前）</td><td>タイムアウト</td><td>可否は未判定。不可ではない</td></tr>
-<tr><td>No.043</td><td>11</td><td>26</td><td>独自C++（メモリ修正後）</td><td>可能（約518秒）</td><td>既知境界の再現。上記タイムアウトの後続</td></tr>
-<tr><td>No.043</td><td>12</td><td>28</td><td>上流・独自C++</td><td>不可</td><td>情報下界より1少ない予算。\(S(12)\) の確定を意味しない</td></tr>
-<tr><td>次の判定点</td><td>12</td><td>29</td><td>制限付き探索</td><td>未実施・検証予定</td><td>実験済みの結果とは区別</td></tr>
-</tbody></table></div>
-<p>このほか非空半順序、同型正規化、bidir格子、アブレーションなどの実験は単純な \((n,C)\) 表に集約できないため、後続節と <a href="https://github.com/yone1998/sorting-research/tree/main/results">results/</a> の記録を参照してください。すべての試行・タイムアウト・検証中を機械的に列挙する完全台帳はまだ未作成です。今後の研究では試行ごとに実装・条件・状態・時刻・ログ参照を残すことを要件とします。</p>
-<h2>6.4 アブレーション（状態数）</h2>
 <p>No.030（独自C++、空、sortable）より n=8・C=16 の例: isomorphic+easy で expanded=614、labeled+easy で 173895。同型は展開数を大きく減らす（この入力）。壁時計はC++のみ解釈。</p>
 <p>No.031（Python dual_twins）: 空 n=8・C=16 で expanded 614→490、memo 680→534。<strong>Python秒は優劣証拠に使わない</strong>（JSONに含まれるが教材では状態数のみ提示）。</p>
 
-<h2>6.5 上流 bidir（C024-c）</h2>
+<h2>6.4 上流 bidir（C024-c）</h2>
 <p>No.032: 空半順序・既知境界で eff-bandwidth×full-layers の52セル。match 52、false_negative 0、false_positive 0（<span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span> 有限格子）。非空・n≥8・一般不在は未検証。</p>
 
-<h2>6.6 非空同値</h2>
+<h2>6.5 非空同値</h2>
 <p>No.028: n≤4 閉包一意 + 保存122。No.033: さらに n=5 構造化・乱択で twin/dual の Python↔独自一致。</p>
 
-<h2>6.7 再現コマンド例</h2>
+<h2>6.6 再現コマンド例</h2>
 <pre><code>python3 scripts/build_closure_search_cpp.py
 PYTHONPATH=scripts python3 scripts/sorting_research_026.py
 PYTHONPATH=scripts python3 scripts/sorting_research_029.py
