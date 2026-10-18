@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第6章 実験 — 比較ソート最適性研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">比較ソート最適性研究</a>
+    <nav class="nav" aria-label="サイト">
+      <a href="../index.html">目次</a>
+      <a href="../glossary.html">用語集</a>
+      <a href="../changelog.html">更新履歴</a>
+      <a href="https://github.com/yone1998/sorting-research">GitHub</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <aside class="toc-side" aria-label="章一覧">
+    <strong>章</strong>
+    <ol>
+<li><a href="01-comparison-model.html">1. 比較モデルと S(n)</a></li>
+<li><a href="02-ford-johnson.html">2. Ford–Johnson と既知結果</a></li>
+<li><a href="03-posets.html">3. 半順序・拡張・双対</a></li>
+<li><a href="04-search-pruning.html">4. 探索と枝刈り</a></li>
+<li><a href="05-implementations.html">5. 実装の相違</a></li>
+<li><a href="06-experiments.html" aria-current="page">6. 再現実験</a></li>
+<li><a href="07-open-problems.html">7. 仮説と次の課題</a></li>
+    </ol>
+  </aside>
+  <main>
+
+<h1>第6章 再現実験（n=5〜9）</h1>
+<p class="lead">数値はすべて <code>results/*.json</code> から採用しました。創作していません。</p>
+
+<h2>6.1 三方式の可否一致</h2>
+<p><span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span> No.026: \(n\in\{5,6,7,8\}\) の既知境界で Python / 独自C++ / 上流 forward の可否が一致。Python↔独自は展開・計数カウンタも一致。</p>
+<p><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span> No.029: \(n=9\)、予算18で不可・19で可能。三方式とも completed。Python↔独自のカウンタ例（C=19）: expanded=7051、count_calls=68688、memo_states=7699。</p>
+
+<h2>6.2 C++対C++壁時計（限定）</h2>
+<p>No.027（4反復中央値、プロセス壁時計、空半順序）。単位はミリ秒（JSONの秒を×1000して表示）。</p>
+<div class="scroll"><table>
+<thead><tr><th>n</th><th>C</th><th>独自C++ 中央値</th><th>上流C++ 中央値</th><th>判定</th></tr></thead>
+<tbody>
+<tr><td>7</td><td>12</td><td>2.31 ms</td><td>25.76 ms</td><td>不可</td></tr>
+<tr><td>7</td><td>13</td><td>4.66 ms</td><td>32.21 ms</td><td>可能</td></tr>
+<tr><td>8</td><td>15</td><td>2.23 ms</td><td>26.32 ms</td><td>不可</td></tr>
+<tr><td>8</td><td>16</td><td>18.78 ms</td><td>66.64 ms</td><td>可能</td></tr>
+</tbody></table></div>
+<p>No.029 の n=9・C=19（単回）: 独自C++ 約 261.84 ms、上流 約 221.00 ms。単回かつ方式非同一のため優劣の一般化は禁止です。</p>
+<p>根拠: <a href="https://github.com/yone1998/sorting-research/blob/main/results/027_cpp_cpp_bench.json">027_cpp_cpp_bench.json</a>、
+<a href="https://github.com/yone1998/sorting-research/blob/main/results/029_n9_threeway.json">029_n9_threeway.json</a>。</p>
+
+<h2>6.3 アブレーション（状態数）</h2>
+<p>No.030（独自C++、空、sortable）より n=8・C=16 の例: isomorphic+easy で expanded=614、labeled+easy で 173895。同型は展開数を大きく減らす（この入力）。壁時計はC++のみ解釈。</p>
+<p>No.031（Python dual_twins）: 空 n=8・C=16 で expanded 614→490、memo 680→534。<strong>Python秒は優劣証拠に使わない</strong>（JSONに含まれるが教材では状態数のみ提示）。</p>
+
+<h2>6.4 上流 bidir（C024-c）</h2>
+<p>No.032: 空半順序・既知境界で eff-bandwidth×full-layers の52セル。match 52、false_negative 0、false_positive 0（<span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span> 有限格子）。非空・n≥8・一般不在は未検証。</p>
+
+<h2>6.5 非空同値</h2>
+<p>No.028: n≤4 閉包一意 + 保存122。No.033: さらに n=5 構造化・乱択で twin/dual の Python↔独自一致。</p>
+
+<h2>6.6 再現コマンド例</h2>
+<pre><code>python3 scripts/build_closure_search_cpp.py
+PYTHONPATH=scripts python3 scripts/sorting_research_026.py
+PYTHONPATH=scripts python3 scripts/sorting_research_029.py
+PYTHONPATH=scripts python3 scripts/sorting_research_033.py
+</code></pre>
+
+<div class="chapter-nav"><a href="05-implementations.html">← 第5章</a><a href="07-open-problems.html">第7章 課題 →</a></div>
+
+  </main>
+</div>
+<footer class="site-footer">
+  <p>静的HTML初版（2026-10-18）。数値はリポジトリの <code>results/</code> から採用。GitHub Pages の公開設定変更は別途確認。数学研究は途上であり、実験的確認は一般定理の証明ではない。</p>
+</footer>
+</body>
+</html>
