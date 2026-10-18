@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用語集 — 比較ソート最適性研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">比較ソート最適性研究</a>
+    <nav class="nav" aria-label="サイト">
+      <a href="index.html">目次</a>
+      <a href="glossary.html">用語集</a>
+      <a href="changelog.html">更新履歴</a>
+      <a href="https://github.com/yone1998/sorting-research">GitHub</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <aside class="toc-side" aria-label="章一覧">
+    <strong>章</strong>
+    <ol>
+<li><a href="chapters/01-comparison-model.html">1. 比較モデルと S(n)</a></li>
+<li><a href="chapters/02-ford-johnson.html">2. Ford–Johnson と既知結果</a></li>
+<li><a href="chapters/03-posets.html">3. 半順序・拡張・双対</a></li>
+<li><a href="chapters/04-search-pruning.html">4. 探索と枝刈り</a></li>
+<li><a href="chapters/05-implementations.html">5. 実装の相違</a></li>
+<li><a href="chapters/06-experiments.html">6. 再現実験</a></li>
+<li><a href="chapters/07-open-problems.html">7. 仮説と次の課題</a></li>
+    </ol>
+  </aside>
+  <main>
+
+<h1>用語集</h1>
+<p class="lead">初出で定義した語の短い索引です。詳細は各章を参照。</p>
+<div class="card"><dl>
+<dt>\(S(n)\)</dt><dd>相異なる n 要素の決定的比較ソートの最悪時比較回数の最小値。</dd>
+<dt>\(L(n)\)</dt><dd>\(\lceil\log_2(n!)\rceil\)。情報理論的下界。</dd>
+<dt>\(F(n)\)</dt><dd>Ford–Johnson 法の最悪時比較回数（上界を与える）。</dd>
+<dt>\(P\), \(e(P)\), \(S(P)\)</dt><dd>半順序、線形拡張数、その状態からの残り最悪比較。</dd>
+<dt>閉包</dt><dd>確定した不等号の推移的閉包。</dd>
+<dt>双対 \(P^*\)</dt><dd>関係をすべて反転した半順序。</dd>
+<dt>twins / dual_twins</dt><dd>同型正規化鍵。後者は双対側との辞書式最小。</dd>
+<dt>B0/B1/B2</dt><dd>線形拡張に基づく下界の階層。</dd>
+<dt>forward / bidir</dt><dd>上流C++の探索モード。</dd>
+</dl></div>
+<p><a href="index.html">目次へ</a></p>
+
+  </main>
+</div>
+<footer class="site-footer">
+  <p>静的HTML初版（2026-10-18）。数値はリポジトリの <code>results/</code> から採用。GitHub Pages の公開設定変更は別途確認。数学研究は途上であり、実験的確認は一般定理の証明ではない。</p>
+</footer>
+</body>
+</html>
