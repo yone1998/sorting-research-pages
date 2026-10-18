@@ -148,7 +148,7 @@ dd { margin: 0.2rem 0 0.5rem 0; color: var(--muted); }
   --ok: #a3e8bf; --ok-bg: #1d3d30;
   --conj: #dfb3f2; --conj-bg: #3c2948;
 }
-:root[data-theme="dark"] body { background: var(--paper); }
+:root[data-theme="dark"] body { background: var(--paper); color: var(--ink); }
 :root[data-theme="dark"] .site-header { background: #16202b; }
 :root[data-theme="dark"] code { background: #2b3d4d; color: #f2f7fc; }
 :root[data-theme="dark"] .hero code { background: #172b3c; color: #fff; }
@@ -164,3 +164,10 @@ dd { margin: 0.2rem 0 0.5rem 0; color: var(--muted); }
   :root:not([data-theme]) .ex, :root:not([data-theme]) th { background: #263746; }
 }
 .theme-toggle { cursor: pointer; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: .3rem .65rem; font: inherit; }
+
+/* Explicitly paint the dark surface and avoid light gradients on every viewport. */
+html[data-theme="dark"], html[data-theme="dark"] body, html[data-theme="dark"] main { background-color: var(--paper); }
+html[data-theme="dark"] body { background-image: none; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) body { background-image: none; }
+}
