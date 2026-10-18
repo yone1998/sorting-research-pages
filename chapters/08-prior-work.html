@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>第8章 先行研究 — 比較ソート最適性研究</title><link rel="stylesheet" href="../assets/style.css"><script>window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script><script defer src="../assets/theme.js"></script></head><body>
+<header class="site-header"><div class="inner"><a class="brand" href="../index.html">比較ソート最適性研究</a><nav class="nav"><a href="../index.html">目次</a><a href="../glossary.html">用語集</a><a href="../changelog.html">更新履歴</a></nav></div></header><div class="wrap"><aside class="toc-side"><strong>章</strong><ol><li><a href="02-ford-johnson.html">2. Ford–Johnson</a></li><li><a href="03-posets.html">3. 半順序</a></li><li><a href="07-open-problems.html">7. 研究課題</a></li><li><a href="08-prior-work.html" aria-current="page">8. 先行研究</a></li></ol></aside><main>
+<h1>第8章 先行研究と本研究の位置づけ</h1><p class="lead">先行研究の「論文に書かれた主張」と「本プロジェクトが再現・監査した内容」を分けて読む。</p>
+<h2>8.1 問題の全体像</h2><p>相異なるn要素の決定的比較ソートに必要な最小の最悪比較回数を \(S(n)\) とする。情報理論的下界 \(L(n)=\lceil\log_2(n!)\rceil\) と、具体的アルゴリズムによる上界を比較する。下界と上界の差が残る場合、より良い比較木の構成または不可能性の証明が課題となる。</p>
+<h2>8.2 研究の系譜</h2>
+<div class="scroll"><table><thead><tr><th>研究・文献</th><th>主題</th><th>本プロジェクトでの確認状態</th></tr></thead><tbody>
+<tr><td>Ford–Johnson（merge-insertion）</td><td>少ない比較回数で整列する構成法。\(F(n)\) を上界として与える。</td><td>既知の上界として利用。原論文の全証明監査は未実施。</td></tr>
+<tr><td>Manacher / Peczarski などの比較ソート研究</td><td>最適比較回数・改良手法・計算機援用探索の系譜。</td><td>文献候補として記録。各論文の本文監査は未了。</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2206.05597">Stober &amp; Weiß, Lower Bounds for Sorting 16, 17, and 18 Elements</a></td><td>比較ソートの下界、探索状態の同型処理、線形拡張計数。</td><td>要旨・関連節・Table 7を部分確認済み。計算再現と証明全体の監査は未実施。</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2608.19505">Keigo Oka, Breaking the 2^n Barrier for Counting Linear Extensions with a Short Elementary Algorithm</a></td><td>一般半順序の線形拡張数を \(O^*(1.89^n)\) 時間で計数する主張。</td><td>付属検証スクリプト実行、独立計数パイロット実施。証明全体の監査は未完了。</td></tr>
+<tr><td><a href="https://github.com/CodeCrafter47/sortinglowerbounds">sortinglowerbounds（上流C++）</a></td><td>比較決定木の探索実装。</td><td>固定commitをsubmodule化し、既知境界で実行・照合。</td></tr>
+</tbody></table></div>
+<h2>8.3 なぜ半順序・線形拡張が登場するのか</h2><p>比較の結果は半順序として蓄積される。まだ許される全順序（線形拡張）を数えると、決定木の各状態で残る可能性を評価できる。イデアルDPはその計数の基本手法であり、探索の枝刈りにも関わる。</p>
+<h2>8.4 \(n=23\) の位置づけ</h2><p>Stober &amp; Weiß の2022年版 Table 7 は \(S(23)\) を75または76と記載する。これは同文献の記載を確認したという意味であり、2026年時点の世界的な確定状況を網羅調査したという意味ではない。本プロジェクトでは \(S(23)\) の確定も新しい上下界も得ていない。</p>
+<h2>8.5 先行研究との差分を主張するための条件</h2><p>同型正規化、双対利用、イデアルDPなどは先行研究に存在する。実装しただけで新規性は主張できない。新規成果として報告するには、既存手法との差分、独立に検証可能な証拠、必要なら一般性の証明を揃える。</p>
+<p>文献確認の詳細は <a href="https://github.com/yone1998/sorting-research/blob/main/knowledge/sources.md">knowledge/sources.md</a>、研究進捗は <a href="https://github.com/yone1998/sorting-research/blob/main/knowledge/progress.md">knowledge/progress.md</a>を参照。</p>
+<div class="chapter-nav"><a href="07-open-problems.html">← 第7章</a><a href="../index.html">目次へ →</a></div></main></div></body></html>
