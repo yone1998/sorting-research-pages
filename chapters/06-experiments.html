@@ -49,11 +49,11 @@ window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath:
 
 <h2>6.2 実験判定・C++壁時計の統合一覧</h2>
 <p>空半順序の主要な予算付き判定を、結果と測定時間を同じ表に統合しました。\(C\) は比較回数の予算であり、\(S(n)\) そのものではありません。「可能」は \(S(n)\le C\)、「不可」は \(S(n)&gt;C\) を意味します。タイムアウトは不可と区別します。壁時計はプロセスの実経過時間で、単位はミリ秒です。</p>
-<p>測定方式は各行の「時間の扱い」に明記しました。No.027は各4反復の中央値、No.029は単回、No.043は約518秒の概数です。「—」はゼロ秒や未計測の断定ではなく、この表の該当実験に対応する壁時計を引用できないことを意味します。JSONに残る別回の実行は混ぜず、同一条件の再測定は注記します。</p>
+<p>測定方式は各行の「時間の扱い」に明記しました。No.027とNo.050は各4反復の中央値、No.029・043・045・049・051は別々の実行記録です。「—」はゼロ秒や未計測の断定ではなく、この表の該当実験に対応する壁時計を引用できないことを意味します。JSONに残る別回の実行は混ぜず、同一条件の再測定は注記します。</p>
 <h3>壁時計時間の散布図</h3>
-<p>横軸は要素数 n（線形）、縦軸は壁時計秒数（対数）。凡例は独自／上流 × 可能／不可の4系列です。タイムアウトは不可と区別します。点は異なる比較予算 C や測定回を含むため線で結びません。</p>
+<p>横軸は要素数 n（線形）、縦軸は壁時計秒数（対数）。凡例は独自／上流 × 可能／不可の4系列です。タイムアウトは不可と区別します。点は異なる比較予算 C や測定回を含むため線で結びません。No.051の約22秒・46秒は概数であり、精密値ではありません。</p>
 <div class="scroll"><svg id="walltime-plot" viewBox="0 0 850 440" role="img" aria-label="C++壁時計の対数散布図。独自と上流の可能・不可4系列" style="min-width:650px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px"></svg></div>
-<p>点の詳細は下表を参照。No.027は各4反復の中央値、他は単回測定です。情報下界で即座に棄却された「不可」の点は探索性能の指標ではありません。</p>
+<p>点の詳細は下表を参照。No.027・050は各4反復の中央値、他は単回または制限付き試行です。情報下界で即座に棄却された「不可」の点は探索性能の指標ではありません。No.050の2点は同一ホスト交互4反復の中央値です。</p>
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
 const s=document.getElementById('walltime-plot');if(!s)return;
@@ -64,10 +64,12 @@ const rows=[
 [9,18,0,0,.00158,'029'],[9,18,1,0,.05852,'029'],[9,19,0,1,.26184,'029'],[9,19,1,1,.221,'029'],
 [10,21,0,0,.002062,'041'],[10,21,1,0,.018891,'041'],[10,22,0,1,3.370668,'041'],[10,22,1,1,.139867,'041'],
 [11,25,0,0,.002691,'041'],[11,25,1,0,.018458,'041'],[11,26,1,1,34.835644,'042'],[11,26,1,1,37.395319,'043'],
-[11,26,0,1,517.979,'043'],[12,28,0,0,.001731,'043'],[12,28,1,0,.025592,'043']];
-const X=n=>75+(n-6.6)/5.8*730,Y=t=>55+(3.1-Math.log10(t))/6.4*320;
+[11,26,0,1,517.979,'043'],[12,28,0,0,.001731,'043'],[12,28,1,0,.025592,'043'],
+[12,30,0,1,6.2682375,'050'],[12,30,1,1,838.4047525,'050'],
+[13,33,1,0,22,'051'],[13,34,0,1,46,'051']];
+const X=n=>75+(n-6.6)/6.8*730,Y=t=>55+(3.1-Math.log10(t))/6.4*320;
 for(let e=-3;e<=3;e++){const yy=Y(10**e);add('line',{x1:75,x2:810,y1:yy,y2:yy,stroke:'currentColor','stroke-opacity':.17});add('text',{x:65,y:yy+5,'text-anchor':'end',fill:'currentColor','font-size':14},'1e'+e)}
-for(let n=7;n<=12;n++)add('text',{x:X(n),y:402,'text-anchor':'middle',fill:'currentColor','font-size':15},String(n));
+for(let n=7;n<=13;n++)add('text',{x:X(n),y:402,'text-anchor':'middle',fill:'currentColor','font-size':15},String(n));
 add('text',{x:442,y:430,'text-anchor':'middle',fill:'currentColor'},'要素数 n');
 add('text',{x:20,y:230,transform:'rotate(-90 20 230)','text-anchor':'middle',fill:'currentColor'},'壁時計（秒・対数）');
 const col=['#579cf2','#e58b45'];
@@ -94,7 +96,14 @@ const x=X(11)-19,y=Y(90.090409);add('line',{x1:x-6,x2:x+6,y1:y-6,y2:y+6,stroke:'
 <tr><td>No.042</td><td>11</td><td>26</td><td>独自C++（修正前）</td><td>タイムアウト</td><td>90,090.41 ms（打切り）</td><td>—</td><td>No.042、90秒上限</td><td>可否未判定</td></tr>
 <tr><td>No.043</td><td>11</td><td>26</td><td>独自C++（修正後）・上流C++</td><td>可能</td><td>517,979 ms</td><td>37,395.32 ms</td><td>No.043、別々の単回実行</td><td>既知境界の再現</td></tr>
 <tr><td>No.043</td><td>12</td><td>28</td><td>上流・独自C++</td><td>不可</td><td>1.73 ms</td><td>25.59 ms</td><td>No.043、単回</td><td>情報下界より1少ない</td></tr>
-<tr><td>次の判定点</td><td>12</td><td>29</td><td>制限付き探索</td><td>未実施</td><td>—</td><td>—</td><td>測定なし</td><td>予定であり実験結果ではない</td></tr>
+<tr><td>No.044–045</td><td>12</td><td>29</td><td>上流 forward</td><td>不可</td><td>—</td><td>—</td><td>判定完走、対応する壁時計はこの表では未採用</td><td>情報下界より強い既知の不可判定</td></tr>
+<tr><td>No.045</td><td>12</td><td>30</td><td>上流 forward</td><td>可能</td><td>—</td><td>約903,000 ms</td><td>別セッションの単回</td><td>No.050の公平比較とは混ぜない</td></tr>
+<tr><td>No.047–048</td><td>12</td><td>30</td><td>独自・改良途中</td><td>タイムアウト</td><td>1,800,000 / 3,600,000 ms（上限）</td><td>—</td><td>別々の打切り試行</td><td>不可判定ではない</td></tr>
+<tr><td>No.049</td><td>12</td><td>30</td><td>独自・改良後</td><td>可能</td><td>約8,000 ms</td><td>—</td><td>別セッション単回</td><td>No.050の反復とは区別</td></tr>
+<tr><td>No.050</td><td>12</td><td>30</td><td>独自・上流（同一ホスト交互）</td><td>可能</td><td>6,268.24 ms</td><td>838,404.75 ms</td><td>各4反復の中央値</td><td>独自単一プロセス／上流4スレッド、アルゴリズム相違</td></tr>
+<tr><td>No.051</td><td>13</td><td>32</td><td>独自・上流</td><td>不可</td><td>—</td><td>—</td><td>情報下界の判定、壁時計未採用</td><td>探索性能の比較対象外</td></tr>
+<tr><td>No.051</td><td>13</td><td>33</td><td>上流（独自はtimeout）</td><td>不可（上流）</td><td>タイムアウト（実時間は未採用）</td><td>約22,000 ms</td><td>制限付き・非対称</td><td>同一エンジン両側完走ではない</td></tr>
+<tr><td>No.051</td><td>13</td><td>34</td><td>独自（上流はtimeout）</td><td>可能（独自）</td><td>約46,000 ms</td><td>タイムアウト（実時間は未採用）</td><td>制限付き・非対称</td><td>同一エンジン両側完走ではない</td></tr>
 </tbody></table></div>
 <p>根拠：<a href="https://github.com/yone1998/sorting-research/blob/main/results/027_cpp_cpp_bench.json">No.027のJSON</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/results/029_n9_threeway.json">No.029のJSON</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/results/041_primary_numel10.json">No.041</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/results/042_oka_n11.json">No.042</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/results/043_n11_numel12_oka5.json">No.043</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/knowledge/status.md">研究記録</a>。時間値は異なるアルゴリズム間の一般的な優劣を示しません。</p>
 <div class="warn"><strong>網羅性の限界：</strong>これは従来の6.2と6.3を統合した条件別一覧であり、すべての反復・全実装・非空半順序・アブレーション・bidir格子を個別行に展開した完全台帳ではありません。成功、不可、タイムアウト、未実施は区別しています。全試行の完全台帳は引き続き未作成です。</div>
