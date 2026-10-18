@@ -4,7 +4,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('.site-header .nav');
     if (!nav) return;
-    const button = document.createElement('button');
+    const button = nav.querySelector('.theme-toggle') || document.createElement('button');
     button.type = 'button'; button.className = 'theme-toggle';
     const update = () => { button.textContent = root.dataset.theme === 'dark' ? '☀ ライト' : '☾ ダーク'; button.setAttribute('aria-label', '表示テーマを切り替える'); };
     button.addEventListener('click', () => {
@@ -13,6 +13,7 @@
       try { localStorage.setItem('textbook-theme', root.dataset.theme); } catch (_) {}
       update();
     });
-    nav.append(button); update();
+    if (!button.isConnected) nav.append(button);
+    update();
   });
 })();
