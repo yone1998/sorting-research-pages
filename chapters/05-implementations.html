@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第5章 実装 — 比較ソート最適性研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">比較ソート最適性研究</a>
+    <nav class="nav" aria-label="サイト">
+      <a href="../index.html">目次</a>
+      <a href="../glossary.html">用語集</a>
+      <a href="../changelog.html">更新履歴</a>
+      <a href="https://github.com/yone1998/sorting-research">GitHub</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <aside class="toc-side" aria-label="章一覧">
+    <strong>章</strong>
+    <ol>
+<li><a href="01-comparison-model.html">1. 比較モデルと S(n)</a></li>
+<li><a href="02-ford-johnson.html">2. Ford–Johnson と既知結果</a></li>
+<li><a href="03-posets.html">3. 半順序・拡張・双対</a></li>
+<li><a href="04-search-pruning.html">4. 探索と枝刈り</a></li>
+<li><a href="05-implementations.html" aria-current="page">5. 実装の相違</a></li>
+<li><a href="06-experiments.html">6. 再現実験</a></li>
+<li><a href="07-open-problems.html">7. 仮説と次の課題</a></li>
+    </ol>
+  </aside>
+  <main>
+
+<h1>第5章 三つの実装の相違</h1>
+<p class="lead">言語差とアルゴリズム差を分けて読むための対応表です（No.024）。</p>
+
+<h2>5.1 実装の役割</h2>
+<ul>
+  <li><strong>Python（No.019系）</strong>: 正しさの参照器。標準ライブラリのみ。</li>
+  <li><strong>独自C++（<code>cpp/closure_search</code>）</strong>: Python の忠実移植。vendor 非依存。twins 既定、任意で <code>--dual-twins</code>（No.033）。</li>
+  <li><strong>上流C++（<code>vendor/sortinglowerbounds</code> @ <code>45d62bb</code>）</strong>: Stober &amp; Weiß 系の forward / backward / bidir 探索。</li>
+</ul>
+
+<h2>5.2 主な対応と差異</h2>
+<div class="scroll"><table>
+<thead><tr><th>項目</th><th>Python / 独自C++</th><th>上流C++</th><th>状態</th></tr></thead>
+<tbody>
+<tr><td>状態</td><td>閉包ビット行</td><td>比較グラフ + 閉包計算</td><td>操作は同型、表現は差異</td></tr>
+<tr><td>\(e(P)\)</td><td>イデアルDP</td><td>イデアル/アップセットDP</td><td>同系統</td></tr>
+<tr><td>早期YES</td><td>e≤7 を移植済（No.025）</td><td><code>isEasilySortableLinExt</code></td><td>条件対応</td></tr>
+<tr><td>同型</td><td>twins / 任意 dual_twins</td><td>canonical + reverse-iso（VF2）</td><td>別アルゴリズム</td></tr>
+<tr><td>探索</td><td>予算付き再帰DFS+メモ</td><td>層別 forward/bidir</td><td>差異</td></tr>
+<tr><td>efficiency</td><td>なし</td><td>bidir の eff-bandwidth</td><td>完全性はパラメータ依存</td></tr>
+</tbody></table></div>
+<p>詳細: <a href="https://github.com/yone1998/sorting-research/blob/main/knowledge/notes/2026-10-18-cpp-python-mapping.md">knowledge/notes/2026-10-18-cpp-python-mapping.md</a>。</p>
+
+<h2>5.3 公平比較の約束</h2>
+<p><code>docs/cpp-parity-benchmark-instructions.md</code> および Issue #2 に従い:</p>
+<ul>
+  <li>Python 壁時計をアルゴリズム優劣の証拠にしない。</li>
+  <li>C++対C++でも方式が異なれば一般優劣を主張しない。</li>
+  <li>展開数・計数呼出しなど数学的効果と壁時計を分けて記録する。</li>
+</ul>
+
+<div class="chapter-nav"><a href="04-search-pruning.html">← 第4章</a><a href="06-experiments.html">第6章 実験 →</a></div>
+
+  </main>
+</div>
+<footer class="site-footer">
+  <p>静的HTML初版（2026-10-18）。数値はリポジトリの <code>results/</code> から採用。GitHub Pages の公開設定変更は別途確認。数学研究は途上であり、実験的確認は一般定理の証明ではない。</p>
+</footer>
+</body>
+</html>
