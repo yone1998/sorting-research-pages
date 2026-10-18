@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第2章 Ford–Johnson — 比較ソート最適性研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">比較ソート最適性研究</a>
+    <nav class="nav" aria-label="サイト">
+      <a href="../index.html">目次</a>
+      <a href="../glossary.html">用語集</a>
+      <a href="../changelog.html">更新履歴</a>
+      <a href="https://github.com/yone1998/sorting-research">GitHub</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <aside class="toc-side" aria-label="章一覧">
+    <strong>章</strong>
+    <ol>
+<li><a href="01-comparison-model.html">1. 比較モデルと S(n)</a></li>
+<li><a href="02-ford-johnson.html" aria-current="page">2. Ford–Johnson と既知結果</a></li>
+<li><a href="03-posets.html">3. 半順序・拡張・双対</a></li>
+<li><a href="04-search-pruning.html">4. 探索と枝刈り</a></li>
+<li><a href="05-implementations.html">5. 実装の相違</a></li>
+<li><a href="06-experiments.html">6. 再現実験</a></li>
+<li><a href="07-open-problems.html">7. 仮説と次の課題</a></li>
+    </ol>
+  </aside>
+  <main>
+
+<h1>第2章 Ford–Johnson 法と既知結果</h1>
+<p class="lead">古典アルゴリズムが与える上界と、文献に載る \(S(n)\) の表を区別して読みます。</p>
+
+<h2>2.1 Ford–Johnson（merge-insertion）</h2>
+<p>Ford–Johnson 法は、比較ソートの最悪時回数について長年にわたり最良級の<strong>上界</strong>を与えてきた古典アルゴリズムです。その最悪時比較回数を \(F(n)\) と書きます。定義から
+\[
+S(n)\le F(n)
+\]
+が常に成り立ちます（アルゴリズムが存在するので上界になる）。</p>
+<div class="warn"><strong>未証明と混同しない:</strong> 本稿は Ford–Johnson の完全な動作証明を再録しません。詳細は標準的な組合せアルゴリズム文献を参照してください。長文の転載は行いません。</div>
+
+<h2>2.2 文献で確認した値</h2>
+<p>Stober &amp; Weiß, <em>Lower Bounds for Sorting 16, 17, and 18 Elements</em>, arXiv:2206.05597v2 の Table 7 などでは、小さな \(n\) について \(L(n)\)、既知の \(S(n)\)、\(F(n)\) が整理されています。</p>
+<ul>
+  <li>\(L(23)=75\)、\(F(23)=76\) を同文献 Table 7 で確認済み（<code>knowledge/sources.md</code>）。</li>
+  <li>同表は \(S(23)=75\) または \(76\) と記載するが、<strong>2022年の文献確認だけで最新の確定状況を断定しない</strong>。</li>
+  <li>本環境では \(S(23)\) の探索再現は未実施。</li>
+</ul>
+
+<h2>2.3 本リポジトリで再現した既知境界</h2>
+<p>空半順序に対する「\(C\) 比較で整列可能か」の判定として、次を三方式（Python / 独自C++ / 上流C++）で一致確認しました。</p>
+<div class="scroll"><table>
+<thead><tr><th>\(n\)</th><th>\(S(n)\)（既知）</th><th>不可の予算</th><th>可能の予算</th><th>ラベル</th></tr></thead>
+<tbody>
+<tr><td>5</td><td>7</td><td>6</td><td>7</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
+<tr><td>6</td><td>10</td><td>9</td><td>10</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
+<tr><td>7</td><td>13</td><td>12</td><td>13</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
+<tr><td>8</td><td>16</td><td>15</td><td>16</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
+<tr><td>9</td><td>19</td><td>18</td><td>19</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
+</tbody></table></div>
+<p>根拠: <a href="https://github.com/yone1998/sorting-research/blob/main/results/026_threeway.json">results/026_threeway.json</a>、
+<a href="https://github.com/yone1998/sorting-research/blob/main/results/029_n9_threeway.json">results/029_n9_threeway.json</a>。</p>
+
+<div class="chapter-nav"><a href="01-comparison-model.html">← 第1章</a><a href="03-posets.html">第3章 半順序 →</a></div>
+
+  </main>
+</div>
+<footer class="site-footer">
+  <p>静的HTML初版（2026-10-18）。数値はリポジトリの <code>results/</code> から採用。GitHub Pages の公開設定変更は別途確認。数学研究は途上であり、実験的確認は一般定理の証明ではない。</p>
+</footer>
+</body>
+</html>
