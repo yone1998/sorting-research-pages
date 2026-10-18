@@ -50,6 +50,32 @@ window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath:
 <h2>6.2 実験判定・C++壁時計の統合一覧</h2>
 <p>空半順序の主要な予算付き判定を、結果と測定時間を同じ表に統合しました。\(C\) は比較回数の予算であり、\(S(n)\) そのものではありません。「可能」は \(S(n)\le C\)、「不可」は \(S(n)&gt;C\) を意味します。タイムアウトは不可と区別します。壁時計はプロセスの実経過時間で、単位はミリ秒です。</p>
 <p>測定方式は各行の「時間の扱い」に明記しました。No.027は各4反復の中央値、No.029は単回、No.043は約518秒の概数です。「—」はゼロ秒や未計測の断定ではなく、この表の該当実験に対応する壁時計を引用できないことを意味します。JSONに残る別回の実行は混ぜず、同一条件の再測定は注記します。</p>
+<h3>壁時計時間の散布図</h3>
+<p>横軸は要素数 n（線形）、縦軸は壁時計秒数（対数）。凡例は独自／上流 × 可能／不可の4系列です。タイムアウトは不可と区別します。点は異なる比較予算 C や測定回を含むため線で結びません。</p>
+<div class="scroll"><svg id="walltime-plot" viewBox="0 0 850 440" role="img" aria-label="C++壁時計の対数散布図。独自と上流の可能・不可4系列" style="min-width:650px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px"></svg></div>
+<p>点の詳細は下表を参照。No.027は各4反復の中央値、他は単回測定です。情報下界で即座に棄却された「不可」の点は探索性能の指標ではありません。</p>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+const s=document.getElementById('walltime-plot');if(!s)return;
+const ns='http://www.w3.org/2000/svg', add=(tag,attrs,label)=>{const e=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));if(label)e.textContent=label;s.append(e);return e};
+const rows=[
+[7,12,0,0,.002313,'027'],[7,12,1,0,.025760,'027'],[7,13,0,1,.004662,'027'],[7,13,1,1,.032214,'027'],
+[8,15,0,0,.002232,'027'],[8,15,1,0,.026317,'027'],[8,16,0,1,.018777,'027'],[8,16,1,1,.066640,'027'],
+[9,18,0,0,.00158,'029'],[9,18,1,0,.05852,'029'],[9,19,0,1,.26184,'029'],[9,19,1,1,.221,'029'],
+[10,21,0,0,.002062,'041'],[10,21,1,0,.018891,'041'],[10,22,0,1,3.370668,'041'],[10,22,1,1,.139867,'041'],
+[11,25,0,0,.002691,'041'],[11,25,1,0,.018458,'041'],[11,26,1,1,34.835644,'042'],[11,26,1,1,37.395319,'043'],
+[11,26,0,1,517.979,'043'],[12,28,0,0,.001731,'043'],[12,28,1,0,.025592,'043']];
+const X=n=>75+(n-6.6)/5.8*730,Y=t=>55+(3.1-Math.log10(t))/6.4*320;
+for(let e=-3;e<=3;e++){const yy=Y(10**e);add('line',{x1:75,x2:810,y1:yy,y2:yy,stroke:'currentColor','stroke-opacity':.17});add('text',{x:65,y:yy+5,'text-anchor':'end',fill:'currentColor','font-size':14},'1e'+e)}
+for(let n=7;n<=12;n++)add('text',{x:X(n),y:402,'text-anchor':'middle',fill:'currentColor','font-size':15},String(n));
+add('text',{x:442,y:430,'text-anchor':'middle',fill:'currentColor'},'要素数 n');
+add('text',{x:20,y:230,transform:'rotate(-90 20 230)','text-anchor':'middle',fill:'currentColor'},'壁時計（秒・対数）');
+const col=['#579cf2','#e58b45'];
+[['独自・可能',0,1],['独自・不可',0,0],['上流・可能',1,1],['上流・不可',1,0]].forEach(([name,eng,ok],i)=>{const x=90+(i%2)*210,y=16+Math.floor(i/2)*22;add(ok?'circle':'rect',ok?{cx:x,cy:y,r:5,fill:col[eng]}:{x:x-5,y:y-5,width:10,height:10,fill:'none',stroke:col[eng],'stroke-width':2});add('text',{x:x+12,y:y+5,fill:'currentColor','font-size':13},name)});
+rows.forEach(([n,C,eng,ok,t,no])=>{const x=X(n)+(eng?8:-8)+(no==='042'?-3:0),y=Y(t);const e=add(ok?'circle':'rect',ok?{cx:x,cy:y,r:6,fill:col[eng]}:{x:x-6,y:y-6,width:12,height:12,fill:'none',stroke:col[eng],'stroke-width':2});const tip=document.createElementNS(ns,'title');tip.textContent='No.'+no+' / n='+n+' / C='+C+' / '+(eng?'上流':'独自')+' / '+(ok?'可能':'不可')+' / '+t+'秒';e.append(tip)});
+const x=X(11)-19,y=Y(90.090409);add('line',{x1:x-6,x2:x+6,y1:y-6,y2:y+6,stroke:'#c05db7','stroke-width':3});add('line',{x1:x-6,x2:x+6,y1:y+6,y2:y-6,stroke:'#c05db7','stroke-width':3});add('text',{x:x+9,y:y-8,fill:'currentColor','font-size':12},'timeout');
+});
+</script>
 <div class="scroll"><table><thead><tr><th>記録</th><th>\(n\)</th><th>\(C\)</th><th>実装・条件</th><th>判定</th><th>独自C++壁時計</th><th>上流C++壁時計</th><th>時間の扱い</th><th>解釈・留保</th></tr></thead><tbody>
 <tr><td>No.021/026</td><td>5</td><td>6</td><td>上流ほか</td><td>不可</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
 <tr><td>No.021/026</td><td>5</td><td>7</td><td>上流ほか</td><td>可能</td><td>—</td><td>—</td><td>測定なし</td><td>既知境界の再現</td></tr>
