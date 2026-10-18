@@ -61,42 +61,43 @@ S(n)\le F(n)
 
 <h2>2.3 情報下界と Ford–Johnson 上界の比較（n=1〜23）</h2>
 <p>情報理論的下界 \(L(n)=\lceil\log_2(n!)\rceil\) と、Ford–Johnson 法の最悪比較回数 \(F(n)=\sum_{k=1}^{n}\lceil\log_2(3k/4)\rceil\) を並べます。差 \(F(n)-L(n)\) は「最適値との差」ではなく、二つの境界の差です。\(L(n)=F(n)\) の行では挟み撃ちにより \(S(n)\) も確定しますが、差が正の行はこの表だけでは確定しません。</p>
-<div class="scroll"><table><thead><tr><th>\(n\)</th><th>\(L(n)\)</th><th>\(F(n)\)</th><th>\(F(n)-L(n)\)</th><th>\(S(n)\)（確定分）</th></tr></thead><tbody>
-<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-<tr><td>2</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
-<tr><td>3</td><td>3</td><td>3</td><td>0</td><td>3</td></tr>
-<tr><td>4</td><td>5</td><td>5</td><td>0</td><td>5</td></tr>
-<tr><td>5</td><td>7</td><td>7</td><td>0</td><td>7</td></tr>
-<tr><td>6</td><td>10</td><td>10</td><td>0</td><td>10</td></tr>
-<tr><td>7</td><td>13</td><td>13</td><td>0</td><td>13</td></tr>
-<tr><td>8</td><td>16</td><td>16</td><td>0</td><td>16</td></tr>
-<tr><td>9</td><td>19</td><td>19</td><td>0</td><td>19</td></tr>
-<tr><td>10</td><td>22</td><td>22</td><td>0</td><td>22</td></tr>
-<tr><td>11</td><td>26</td><td>26</td><td>0</td><td>26</td></tr>
-<tr><td>12</td><td>29</td><td>30</td><td>1</td><td>30</td></tr>
-<tr><td>13</td><td>33</td><td>34</td><td>1</td><td>未記載</td></tr>
-<tr><td>14</td><td>37</td><td>38</td><td>1</td><td>未記載</td></tr>
-<tr><td>15</td><td>41</td><td>42</td><td>1</td><td>未記載</td></tr>
-<tr><td>16</td><td>45</td><td>46</td><td>1</td><td>未記載</td></tr>
-<tr><td>17</td><td>49</td><td>50</td><td>1</td><td>未記載</td></tr>
-<tr><td>18</td><td>53</td><td>54</td><td>1</td><td>未記載</td></tr>
-<tr><td>19</td><td>57</td><td>58</td><td>1</td><td>未記載</td></tr>
-<tr><td>20</td><td>62</td><td>62</td><td>0</td><td>62</td></tr>
-<tr><td>21</td><td>66</td><td>66</td><td>0</td><td>66</td></tr>
-<tr><td>22</td><td>70</td><td>71</td><td>1</td><td>未記載</td></tr>
+<div class="scroll"><table><thead><tr><th>\(n\)</th><th>\(L(n)\)</th><th>\(F(n)\)</th><th>\(F(n)-L(n)\)</th><th>\(S(n)\)（確定値）</th><th>最適値を実現する手法</th><th>最適性の根拠</th></tr></thead><tbody>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>比較不要</td><td>情報下界と上界の一致</td></tr>
+<tr><td>2</td><td>1</td><td>1</td><td>0</td><td>1</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>3</td><td>3</td><td>3</td><td>0</td><td>3</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>4</td><td>5</td><td>5</td><td>0</td><td>5</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>5</td><td>7</td><td>7</td><td>0</td><td>7</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>6</td><td>10</td><td>10</td><td>0</td><td>10</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>7</td><td>13</td><td>13</td><td>0</td><td>13</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>8</td><td>16</td><td>16</td><td>0</td><td>16</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>9</td><td>19</td><td>19</td><td>0</td><td>19</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>10</td><td>22</td><td>22</td><td>0</td><td>22</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>11</td><td>26</td><td>26</td><td>0</td><td>26</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>12</td><td>29</td><td>30</td><td>1</td><td>30</td><td>Ford–Johnson法</td><td>Tao（1989）等による下界</td></tr>
+<tr><td>13</td><td>33</td><td>34</td><td>1</td><td>34</td><td>Ford–Johnson法</td><td>Peczarski（2002）等による下界</td></tr>
+<tr><td>14</td><td>37</td><td>38</td><td>1</td><td>38</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
+<tr><td>15</td><td>41</td><td>42</td><td>1</td><td>42</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
+<tr><td>16</td><td>45</td><td>46</td><td>1</td><td>46</td><td>Ford–Johnson法</td><td>Stober–Weiß（2023）による下界</td></tr>
+<tr><td>17</td><td>49</td><td>50</td><td>1</td><td>50</td><td>Ford–Johnson法</td><td>Stober–Weiß（2023）による下界</td></tr>
+<tr><td>18</td><td>53</td><td>54</td><td>1</td><td>54</td><td>Ford–Johnson法</td><td>Stober–Weiß（2023）による下界</td></tr>
+<tr><td>19</td><td>57</td><td>58</td><td>1</td><td>58</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
+<tr><td>20</td><td>62</td><td>62</td><td>0</td><td>62</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>21</td><td>66</td><td>66</td><td>0</td><td>66</td><td>Ford–Johnson法</td><td>情報下界と上界の一致</td></tr>
+<tr><td>22</td><td>70</td><td>71</td><td>1</td><td>71</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
 <tr><td>23</td><td>75</td><td>76</td><td>1</td><td>未記載</td></tr>
 </tbody></table></div>
-<p>計算方法: 階乗は整数で求め、\(L(n)\) は \(2^d\ge n!\) を満たす最小整数 \(d\) として評価します。\(F(n)\) は上の和を各項について評価します。\(S(n)\) 欄は上下界一致で確定する値、および確認済みの既知値のみ記載し、空白相当の「未記載」は未解決を意味しません。理論値の計算と探索器による再現は別です。</p>
+<p>計算方法: 階乗は整数で求め、\(L(n)\) は \(2^d\ge n!\) を満たす最小整数 \(d\) として評価します。\(F(n)\) は上の和を各項について評価します。\(S(n)\) 欄は上下界一致で確定する値、および文献で確定したn≤22の全値を記載します。n=23は未確定のため「未記載」です。Ford–Johnson法がn≤22で上界を達成することと、その上界が最適であることの証明は別です。理論値の計算と探索器による再現は別です。</p>
+<p>出典：<a href="https://epubs.siam.org/doi/10.1137/1.9781611977561.ch17">Stober &amp; Weiß（2023）</a>（16–18を確定し、22以下の既知結果を総括）、<a href="https://oeis.org/A036604">OEIS A036604</a>（n=1〜22の確定値と原論文一覧）。「既存研究の下界証明」は個々の原著への対応を今後精査するための総称で、当該論文を全件精読した意味ではありません。</p>
 <h2>2.4 本リポジトリで再現した既知境界</h2>
 <p>空半順序に対する「\(C\) 比較で整列可能か」の判定として、次を三方式（Python / 独自C++ / 上流C++）で一致確認しました。</p>
 <div class="scroll"><table>
 <thead><tr><th>\(n\)</th><th>\(S(n)\)（既知）</th><th>不可の予算</th><th>可能の予算</th><th>ラベル</th></tr></thead>
 <tbody>
-<tr><td>5</td><td>7</td><td>6</td><td>7</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
-<tr><td>6</td><td>10</td><td>9</td><td>10</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
-<tr><td>7</td><td>13</td><td>12</td><td>13</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
-<tr><td>8</td><td>16</td><td>15</td><td>16</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
-<tr><td>9</td><td>19</td><td>18</td><td>19</td><td><span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span></td></tr>
+<tr><td>5</td><td>7</td><td>6</td><td>7</td><td>7</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
+<tr><td>6</td><td>10</td><td>9</td><td>10</td><td>10</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
+<tr><td>7</td><td>13</td><td>12</td><td>13</td><td>13</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
+<tr><td>8</td><td>16</td><td>15</td><td>16</td><td>16</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
+<tr><td>9</td><td>19</td><td>18</td><td>19</td><td>19</td><td>Ford–Johnson法</td><td>既存研究の計算機援用・下界証明</td></tr>
 </tbody></table></div>
 <p>根拠: <a href="https://github.com/yone1998/sorting-research/blob/main/results/026_threeway.json">results/026_threeway.json</a>、
 <a href="https://github.com/yone1998/sorting-research/blob/main/results/029_n9_threeway.json">results/029_n9_threeway.json</a>。</p>
