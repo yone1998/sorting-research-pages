@@ -50,6 +50,11 @@ window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath:
 
 <div class="def"><strong>定義（残り最悪比較）。</strong> 状態 \(P\) から整列完了までに必要な最悪時比較回数の最小値を \(S(P)\) とする。空の半順序 \(P_\emptyset\) では \(S(P_\emptyset)=S(n)\)。</div>
 
+<h2>3.2 比較結果がイデアルを変える</h2>
+<p>イデアルは単なる部分集合ではなく、<strong>半順序 \(P\) に対して</strong>定義されます。要素 \(a,b\) が比較不能なら、\(P\) のイデアルは \(\varnothing,\{a\},\{b\},\{a,b\}\) です。\(a\prec b\) が分かると \(\{b\}\) は下方閉でなくなり、\(\varnothing,\{a\},\{a,b\}\) の3つだけになります。</p>
+<div class="scroll"><table><thead><tr><th>集合</th><th>比較前</th><th>\(a\prec b\) 判明後</th><th>理由</th></tr></thead><tbody><tr><td>\(\varnothing\)</td><td>○</td><td>○</td><td>空集合は常に下方閉</td></tr><tr><td>\(\{a\}\)</td><td>○</td><td>○</td><td>\(a\) に必要な先行要素はない</td></tr><tr><td>\(\{b\}\)</td><td>○</td><td>×</td><td>\(b\) に必要な \(a\) がない</td></tr><tr><td>\(\{a,b\}\)</td><td>○</td><td>○</td><td>先行要素を全て含む</td></tr></tbody></table></div>
+<p>比較前は線形拡張が \((a,b),(b,a)\) の2通りですが、比較後は \((a,b)\) の1通り。<strong>比較とは可能な全順序を絞る操作</strong>です。なお、ここでいうイデアルは環論のイデアルではなく、順序論の下方集合です。</p>
+<div class="ex"><strong>演習。</strong> \(a\prec b\prec c\) のイデアルを全て列挙してください。<details><summary>解答と理由</summary><p>\(\varnothing,\{a\},\{a,b\},\{a,b,c\}\)。\(c\) を含むなら \(b\) と \(a\) が必要です。</p></details></div>
 <h2>3.3 イデアルとアップセット：具体例から理解する</h2>
 <p>半順序の制約が \(a\prec c\)、\(b\prec c\) だけの3要素を考えます。これは「\(a\) と \(b\) はどちらも \(c\) より前、ただし \(a\) と \(b\) の順序は自由」という意味です。可能な全順序は \((a,b,c)\) と \((b,a,c)\) の2通りです。</p>
 <div class="def"><strong>イデアル（下方集合）。</strong> 集合 \(I\) に要素 \(y\) が含まれていたら、\(y\) より前に置かなければならないすべての要素 \(x\prec y\) も \(I\) に含まれる集合です。</div>

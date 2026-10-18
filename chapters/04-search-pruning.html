@@ -50,6 +50,12 @@ F(P,d)=\bigvee_{\{a,b\}\text{ incomparable}}\bigl(F(P_{a&lt;b},d-1)\land F(P_{b&
 \]
 <p>基底: \(e(P)=1\Rightarrow\mathrm{true}\)。\(e(P)&gt;1\land d=0\Rightarrow\mathrm{false}\)。さらに \(e(P)&gt;2^d\Rightarrow\mathrm{false}\)（情報下界）。</p>
 
+<h2>4.1.1 ORとANDが入れ子になる理由</h2>
+<p>研究者は最初に比較する対を<strong>選べる</strong>ので外側はOR（ある比較対が存在すればよい）です。しかし比較の結果がどちらになるかは研究者が選べず、<strong>どちらの結果でも</strong>残り予算で整列できなければならないため内側はANDです。式の \(\bigvee\) と \(\land\) はこの量化順序を表します。</p>
+<div class="def"><strong>最悪時の量化。</strong> \(F(P,d)\) は「ある比較対 \(\{a,b\}\) が存在し、その比較のどちらの結果についても、残り \(d-1\) 回で成功する戦略が存在する」を意味します。分岐ごとに異なる後続戦略を採用して構いません。</div>
+<p>例えば2要素が未比較なら、1回の比較で必ず整列できるので \(F(P,1)=\mathrm{true}\) です。一方 \(F(P,0)=\mathrm{false}\)。\(e(P)=2\) なので情報下界 \(\lceil\log_2 2\rceil=1\) と一致します。</p>
+<h2>4.1.2 線形拡張数が与える下界</h2>
+<p>状態 \(P\) に \(e(P)\) 通りの可能な全順序が残っているとき、深さ \(d\) の二分比較木の葉は高々 \(2^d\) 個です。正しく整列するには異なる全順序を異なる葉へ識別する必要があるので \(e(P)\le 2^d\)。従って \(S(P)\ge\lceil\log_2 e(P)\rceil\) です。ただし、葉数の条件を満たしても、そのような比較木が実在するとは限りません。</p>
 <h2>4.2 B0 / B1 / B2</h2>
 <div class="def"><strong>定義。</strong> \(B_0(P)=\lceil\log_2 e(P)\rceil\)。\(e(P)&gt;1\) のとき
 \[
