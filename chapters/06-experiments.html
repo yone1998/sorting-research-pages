@@ -36,7 +36,7 @@ window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath:
 <li><a href="04-search-pruning.html">4. 探索と枝刈り</a></li>
 <li><a href="05-implementations.html">5. 実装の相違</a></li>
 <li><a href="06-experiments.html" aria-current="page">6. 再現実験</a></li>
-<li><a href="07-open-problems.html">7. 仮説と次の課題</a></li>
+<li><a href="07-open-problems.html">7. 仮説と次の課題</a></li><li><a href="08-prior-work.html">8. 先行研究</a></li>
     </ol>
   </aside>
   <main>
@@ -62,17 +62,34 @@ window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath:
 <p>根拠: <a href="https://github.com/yone1998/sorting-research/blob/main/results/027_cpp_cpp_bench.json">027_cpp_cpp_bench.json</a>、
 <a href="https://github.com/yone1998/sorting-research/blob/main/results/029_n9_threeway.json">029_n9_threeway.json</a>。</p>
 
-<h2>6.3 アブレーション（状態数）</h2>
+
+<h2>6.3 実施・未完了の判定記録（省略しない方針）</h2>
+<p>上の6.2はNo.027のベンチマーク4条件だけを示した表であり、実施済み探索の全件一覧ではありません。以下では研究記録に現れる主要な空半順序の予算付き判定を、成功例・失敗例・未完了例を含めて記載します。行は実験条件を表し、同一条件の複数反復・異なる実装をすべて個別行に展開した生ログではありません。完全な実行記録は各JSONとログを正本とします。</p>
+<div class="scroll"><table><thead><tr><th>記録</th><th>\(n\)</th><th>\(C\)</th><th>実装・条件</th><th>観測結果</th><th>解釈・留保</th></tr></thead><tbody>
+<tr><td>No.021/026</td><td>5</td><td>6 / 7</td><td>上流ほか</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
+<tr><td>No.019/021/026</td><td>6</td><td>9 / 10</td><td>閉包探索・上流ほか</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
+<tr><td>No.019/021/027</td><td>7</td><td>12 / 13</td><td>閉包探索・上流ほか</td><td>不可 / 可能</td><td>既知境界の再現。6.2に時間を記載</td></tr>
+<tr><td>No.020/021/027</td><td>8</td><td>15 / 16</td><td>閉包探索・上流ほか</td><td>不可 / 可能</td><td>既知境界の再現。6.2に時間を記載</td></tr>
+<tr><td>No.022/029</td><td>9</td><td>18 / 19</td><td>Python・独自C++・上流</td><td>不可 / 可能</td><td>既知境界の再現。18は情報下界で棄却</td></tr>
+<tr><td>No.041</td><td>10</td><td>21 / 22</td><td>上流C++</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
+<tr><td>No.041–043</td><td>11</td><td>25 / 26</td><td>上流C++</td><td>不可 / 可能</td><td>既知境界の再現</td></tr>
+<tr><td>No.042</td><td>11</td><td>26</td><td>独自C++（修正前）</td><td>タイムアウト</td><td>可否は未判定。不可ではない</td></tr>
+<tr><td>No.043</td><td>11</td><td>26</td><td>独自C++（メモリ修正後）</td><td>可能（約518秒）</td><td>既知境界の再現。上記タイムアウトの後続</td></tr>
+<tr><td>No.043</td><td>12</td><td>28</td><td>上流・独自C++</td><td>不可</td><td>情報下界より1少ない予算。\(S(12)\) の確定を意味しない</td></tr>
+<tr><td>次の判定点</td><td>12</td><td>29</td><td>制限付き探索</td><td>未実施・検証予定</td><td>実験済みの結果とは区別</td></tr>
+</tbody></table></div>
+<p>このほか非空半順序、同型正規化、bidir格子、アブレーションなどの実験は単純な \((n,C)\) 表に集約できないため、後続節と <a href="https://github.com/yone1998/sorting-research/tree/main/results">results/</a> の記録を参照してください。すべての試行・タイムアウト・検証中を機械的に列挙する完全台帳はまだ未作成です。今後の研究では試行ごとに実装・条件・状態・時刻・ログ参照を残すことを要件とします。</p>
+<h2>6.4 アブレーション（状態数）</h2>
 <p>No.030（独自C++、空、sortable）より n=8・C=16 の例: isomorphic+easy で expanded=614、labeled+easy で 173895。同型は展開数を大きく減らす（この入力）。壁時計はC++のみ解釈。</p>
 <p>No.031（Python dual_twins）: 空 n=8・C=16 で expanded 614→490、memo 680→534。<strong>Python秒は優劣証拠に使わない</strong>（JSONに含まれるが教材では状態数のみ提示）。</p>
 
-<h2>6.4 上流 bidir（C024-c）</h2>
+<h2>6.5 上流 bidir（C024-c）</h2>
 <p>No.032: 空半順序・既知境界で eff-bandwidth×full-layers の52セル。match 52、false_negative 0、false_positive 0（<span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span> 有限格子）。非空・n≥8・一般不在は未検証。</p>
 
-<h2>6.5 非空同値</h2>
+<h2>6.6 非空同値</h2>
 <p>No.028: n≤4 閉包一意 + 保存122。No.033: さらに n=5 構造化・乱択で twin/dual の Python↔独自一致。</p>
 
-<h2>6.6 再現コマンド例</h2>
+<h2>6.7 再現コマンド例</h2>
 <pre><code>python3 scripts/build_closure_search_cpp.py
 PYTHONPATH=scripts python3 scripts/sorting_research_026.py
 PYTHONPATH=scripts python3 scripts/sorting_research_029.py
