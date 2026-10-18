@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第4章 探索と枝刈り — 比較ソート最適性研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">比較ソート最適性研究</a>
+    <nav class="nav" aria-label="サイト">
+      <a href="../index.html">目次</a>
+      <a href="../glossary.html">用語集</a>
+      <a href="../changelog.html">更新履歴</a>
+      <a href="https://github.com/yone1998/sorting-research">GitHub</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <aside class="toc-side" aria-label="章一覧">
+    <strong>章</strong>
+    <ol>
+<li><a href="01-comparison-model.html">1. 比較モデルと S(n)</a></li>
+<li><a href="02-ford-johnson.html">2. Ford–Johnson と既知結果</a></li>
+<li><a href="03-posets.html">3. 半順序・拡張・双対</a></li>
+<li><a href="04-search-pruning.html" aria-current="page">4. 探索と枝刈り</a></li>
+<li><a href="05-implementations.html">5. 実装の相違</a></li>
+<li><a href="06-experiments.html">6. 再現実験</a></li>
+<li><a href="07-open-problems.html">7. 仮説と次の課題</a></li>
+    </ol>
+  </aside>
+  <main>
+
+<h1>第4章 minimax 探索、メモ化、枝刈り</h1>
+<p class="lead">「残り \(d\) 回で必ず整列できるか」を再帰的に判定します。</p>
+
+<h2>4.1 概念的な再帰</h2>
+<p>比較不能対 \(\{a,b\}\) を選ぶと、子状態 \(P[a&lt;b]\) と \(P[b&lt;a]\) に分岐します。最悪時なので<strong>両方</strong>の子が残り \(d-1\) で可能である必要があり、アルゴリズム設計者は対を選べます。</p>
+\[
+F(P,d)=\bigvee_{\{a,b\}\text{ incomparable}}\bigl(F(P_{a&lt;b},d-1)\land F(P_{b&lt;a},d-1)\bigr).
+\]
+<p>基底: \(e(P)=1\Rightarrow\mathrm{true}\)。\(e(P)&gt;1\land d=0\Rightarrow\mathrm{false}\)。さらに \(e(P)&gt;2^d\Rightarrow\mathrm{false}\)（情報下界）。</p>
+
+<h2>4.2 B0 / B1 / B2</h2>
+<div class="def"><strong>定義。</strong> \(B_0(P)=\lceil\log_2 e(P)\rceil\)。\(e(P)&gt;1\) のとき
+\[
+B_{k+1}(P)=1+\min_{\{a,b\}}\max\bigl(B_k(P[a&lt;b]), B_k(P[b&lt;a])\bigr)
+\]
+（min は比較不能対）。整列済みは 0。単調性 \(B_0\le B_1\le B_2\le\cdots\le S(P)\) が成り立つ（<code>knowledge/definitions.md</code>）。</div>
+<p>No.009–015 ではこれらの棄却判定を独立oracleと照合しました。例: No.015 で 9,219 件一致（<span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span>）。これは一般実装の完全証明ではありません。</p>
+
+<h2>4.3 早期 YES（e≤7）</h2>
+<p>上流の <code>isEasilySortableLinExt</code> と同条件を No.025 で Python に移植: \(e(P)\le 7\) かつ \(e(P)\le 2^{\min(d,3)}\) なら YES。n≤5 の適格ケースでoracleが常に真（<span class="badge badge-cv">COMPUTATIONALLY_VERIFIED</span>）。一般補題の独立証明は本稿の範囲外で、上流コメント＝文献結果の移植です。</p>
+
+<pre><code># 概念的擬似コード（No.019）
+function feasible(P, d):
+  e ← count_linear_extensions(P)
+  if e = 1: return true
+  if d = 0 or e > 2^d: return false
+  if e ≤ 7 and e ≤ 2^min(d,3): return true   # optional
+  key ← normalize(P) if isomorphic else P
+  if (key,d) in memo: return memo[key,d]
+  for each incomparable {a,b}:
+    if feasible(P∪{a&lt;b}, d-1) and feasible(P∪{b&lt;a}, d-1):
+      memo[key,d] ← true; return true
+  memo[key,d] ← false; return false
+</code></pre>
+
+<div class="warn"><strong>資源上限:</strong> タイムアウトや計数キャッシュ上限で停止しても「整列不可能」の証明にはなりません。</div>
+
+<div class="chapter-nav"><a href="03-posets.html">← 第3章</a><a href="05-implementations.html">第5章 実装 →</a></div>
+
+  </main>
+</div>
+<footer class="site-footer">
+  <p>静的HTML初版（2026-10-18）。数値はリポジトリの <code>results/</code> から採用。GitHub Pages の公開設定変更は別途確認。数学研究は途上であり、実験的確認は一般定理の証明ではない。</p>
+</footer>
+</body>
+</html>
