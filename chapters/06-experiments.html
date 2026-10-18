@@ -109,7 +109,16 @@ const x=X(11)-19,y=Y(90.090409);add('line',{x1:x-6,x2:x+6,y1:y-6,y2:y+6,stroke:'
 <h2>6.5 非空同値</h2>
 <p>No.028: n≤4 閉包一意 + 保存122。No.033: さらに n=5 構造化・乱択で twin/dual の Python↔独自一致。</p>
 
-<h2>6.6 再現コマンド例</h2>
+<h2>6.7 No.048–051：12・13要素への拡張と公平性</h2>
+<p>ここでの壁時計はプロセス起動から終了までの経過秒数。<strong>6.2の旧測定系列と混ぜず</strong>、No.050の同一ホスト・同一セッションでの交互4反復を独立した表として示す。</p>
+<div class="scroll"><table><thead><tr><th>条件</th><th>実装</th><th>判定</th><th>壁時計</th><th>反復</th><th>注意</th></tr></thead><tbody>
+<tr><td>n=12, C=30</td><td>上流 forward</td><td>可能</td><td>中央値838.405秒（778.506–858.894）</td><td>4</td><td>4スレッド、active/oldメモリ4/2GB</td></tr>
+<tr><td>n=12, C=30</td><td>独自 closure DP</td><td>可能</td><td>中央値6.268秒（6.191–7.156）</td><td>4</td><td>単一プロセス、isomorphic・圧縮・キャッシュ有効</td></tr>
+<tr><td>n=13, C=33</td><td>上流</td><td>不可</td><td>約22秒</td><td>制限付き試行</td><td>独自はタイムアウト</td></tr>
+<tr><td>n=13, C=34</td><td>独自</td><td>可能</td><td>約46秒</td><td>制限付き試行</td><td>上流はタイムアウト</td></tr>
+</tbody></table></div>
+<p>12要素の約134倍という比は、同じ入力と予算に対する<strong>異なる探索アルゴリズム・異なるスレッドモデルの壁時計比</strong>であり、スレッドを揃えたベンチマークではない。CPU使用時間・最大RSSを揃えた資源効率比較も未実施。上流に4スレッドを与えたことだけを理由に、CPU資源全般で独自が不利だったとは断定できない。</p>
+<p>根拠：<a href="https://github.com/yone1998/sorting-research/blob/main/results/050_fair_n12_wall.json">No.050生データ</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/knowledge/notes/2026-10-18-fair-n12-wall-050.md">測定手順</a>、<a href="https://github.com/yone1998/sorting-research/blob/main/results/051_numel13_limited.json">No.051</a>。既知 \(S(12)=30\)、文献 \(S(13)=34\) の再現であり、新規境界ではない。</p><h2>6.6 再現コマンド例</h2>
 <pre><code>python3 scripts/build_closure_search_cpp.py
 PYTHONPATH=scripts python3 scripts/sorting_research_026.py
 PYTHONPATH=scripts python3 scripts/sorting_research_029.py
