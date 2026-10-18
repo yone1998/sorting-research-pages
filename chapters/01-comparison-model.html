@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第1章 比較モデル — 比較ソート最適性研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">比較ソート最適性研究</a>
+    <nav class="nav" aria-label="サイト">
+      <a href="../index.html">目次</a>
+      <a href="../glossary.html">用語集</a>
+      <a href="../changelog.html">更新履歴</a>
+      <a href="https://github.com/yone1998/sorting-research">GitHub</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <aside class="toc-side" aria-label="章一覧">
+    <strong>章</strong>
+    <ol>
+<li><a href="01-comparison-model.html" aria-current="page">1. 比較モデルと S(n)</a></li>
+<li><a href="02-ford-johnson.html">2. Ford–Johnson と既知結果</a></li>
+<li><a href="03-posets.html">3. 半順序・拡張・双対</a></li>
+<li><a href="04-search-pruning.html">4. 探索と枝刈り</a></li>
+<li><a href="05-implementations.html">5. 実装の相違</a></li>
+<li><a href="06-experiments.html">6. 再現実験</a></li>
+<li><a href="07-open-problems.html">7. 仮説と次の課題</a></li>
+    </ol>
+  </aside>
+  <main>
+
+<h1>第1章 比較モデル、決定木、情報下界</h1>
+<p class="lead">高校で学ぶ対数と階乗から始め、最適比較回数 \(S(n)\) を定義します。</p>
+
+<h2>1.1 問題設定</h2>
+<p>互いに異なる \(n\) 個の要素 \(\{x_1,\ldots,x_n\}\) を、<strong>二項比較</strong>（「\(x_i &lt; x_j\) か？」）だけを使って昇順に並べ替えたい。乱択や平均時間ではなく、<strong>最悪時</strong>に必要な比較回数を最小化する決定的アルゴリズムを考える。</p>
+
+<div class="def"><strong>定義（最悪時比較回数）。</strong> アルゴリズム \(A\) が長さ \(n\) の入力に対して行う比較回数の最大値を \(W_A(n)\) とする。最適値は
+\[
+S(n)=\min_A W_A(n).
+\]
+ここで最小は、正しい整列を常に返す決定的比較アルゴリズム全体に渡る。</div>
+
+<div class="ex"><strong>例。</strong> \(n=2\) なら1回の比較で足り、かつ必要。よって \(S(2)=1\)。\(n=3\) では情報下界から少なくとも3回必要で、実際 \(S(3)=3\) である（既知）。</div>
+
+<h2>1.2 決定木</h2>
+<p>アルゴリズムは二分決定木と同一視できる。各内部節点は未比較の対への質問、左右の枝は結果、葉は同定された順列（または全順序）である。\(W_A(n)\) は木の<strong>高さ</strong>（根から最も深い葉までの辺数）に等しい。</p>
+
+<h2>1.3 床・天井と対数</h2>
+<p>実数 \(x\) に対し、\(\lfloor x\rfloor\) は \(x\) 以下の最大整数（床）、\(\lceil x\rceil\) は \(x\) 以上の最小整数（天井）です。例えば \(\lceil 6.1\rceil=7\)、\(\lfloor\log_2 100\rfloor=6\)。</p>
+<p>\(\log_2 t\) は「2を何回掛けると \(t\) 以上になるか」の実数値です。\(2^d \ge t\) となる最小の整数 \(d\) はちょうど \(\lceil\log_2 t\rceil\) です。</p>
+
+<h2>1.4 情報理論的下界</h2>
+<p>要素が全て異なるなら、あり得る入力の相対順序は \(n!\) 通り。深さ \(d\) の二分木の葉は高々 \(2^d\) 枚なので、全ての順列を区別するには \(2^d \ge n!\) が必要です。</p>
+
+<div class="thm"><strong>定理（情報下界）。</strong>
+\[
+S(n)\ge L(n),\qquad L(n)=\lceil\log_2(n!)\rceil.
+\]
+<span class="badge badge-pr">PROVED</span>（標準的な計数論法。本リポジトリ外の古典結果。）</div>
+
+<div class="note"><strong>注意。</strong> これは必要条件にすぎません。質問が任意の二分割ではなく「要素対の大小」に制限されるため、\(L(n)\) が常に達成可能とは限りません。</div>
+
+<div class="ex"><strong>例（\(n=5\)）。</strong> \(5!=120\)。\(2^6=64 &lt; 120 \le 128=2^7\) なので \(L(5)=7\)。実際 \(S(5)=7\) も既知で、本リポジトリでも空半順序の可否判定として再現しています（<span class="badge badge-rk">REPRODUCED_KNOWN_RESULT</span>）。</div>
+
+<div class="chapter-nav"><span></span><a href="02-ford-johnson.html">第2章 Ford–Johnson →</a></div>
+
+  </main>
+</div>
+<footer class="site-footer">
+  <p>静的HTML初版（2026-10-18）。数値はリポジトリの <code>results/</code> から採用。GitHub Pages の公開設定変更は別途確認。数学研究は途上であり、実験的確認は一般定理の証明ではない。</p>
+</footer>
+</body>
+</html>
